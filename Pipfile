@@ -7,13 +7,18 @@ verify_ssl = true
 
 [packages]
 django = "*"
+djangorestframework = "*"
+python-decouple = "*"
+django-rest-auth = "*"
+django-allauth = "*"
+pusher = "*"
+django-cors-headers = "*"
 gunicorn = "*"
+django-heroku = "*"
+django-rest-api = "*"
 psycopg2-binary = "*"
 dj-database-url = "*"
 whitenoise = "*"
-python-decouple = "*"
-djangorestframework = "*"
-django-heroku = "*"
 
 [requires]
 python_version = "3.8"
