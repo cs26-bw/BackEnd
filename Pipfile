@@ -13,6 +13,7 @@ dj-database-url = "*"
 whitenoise = "*"
 python-decouple = "*"
 djangorestframework = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.8"
