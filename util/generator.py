@@ -94,12 +94,12 @@ class World:
             existing = self.grid[y][x]
             if not existing:
                 room = Room(room_count, "A Generic Room", "This is a generic room.", x, y)
-                # Note that in Django, you'll need to save the room after you create it
-                print("value of x and y", x, y)
+                # Note that in Django, you'll need to save the room after you create i
                 # Save the room in the World grid
-                print("value of grid", self.grid)
                 self.grid[y][x] = room
-
+                room_count += 1
+            else:
+                room = existing
 
             # Connect the new room to the previous room
             if previous_room is not None:
@@ -107,7 +107,7 @@ class World:
 
             # Update iteration variables
             previous_room = room
-            room_count += 1
+
 
             directions = []
             if y < size_y - 1:
@@ -180,9 +180,9 @@ class World:
 
 
 w = World()
-num_rooms = 44
-width = 8
-height = 7
+num_rooms = 100
+width = 15
+height = 10
 w.generate_rooms(width, height, num_rooms)
 w.print_rooms()
 
