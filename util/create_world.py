@@ -10,6 +10,7 @@ class World:
         self.starting_room = None
 
     def generate_rooms(self, size_x, size_y, num_rooms):
+        Room.objects.all().delete()
         '''
         Fill up the grid, bottom to top, in a zig-zag pattern
         '''
@@ -154,13 +155,7 @@ height = 10
 w.generate_rooms(width, height, num_rooms)
 w.print_rooms()
 
-
 print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
-
-
-Room.objects.all().delete()
-
-
 
 players=Player.objects.all()
 for p in players:

@@ -27,8 +27,8 @@ class Room(models.Model):
             if not reverse_dir:
                 print("invalid direction")
                 return
-            setattr(self, f"{direction}_to", destinationRoom)
-            setattr(destinationRoom, f"{reverse_dir}_to", self)
+            setattr(self, f"{direction}_to", destinationRoom.id)
+            setattr(destinationRoom, f"{reverse_dir}_to", self.id)
             self.save()
             destinationRoom.save()
     def playerNames(self, currentPlayerID):
