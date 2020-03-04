@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 import random
-from util.landmarks import Landmark
+from util.main_classes import RoomType
 
 class World:
     def __init__(self):
@@ -101,20 +101,37 @@ class World:
 
     def generate_room_data(self):
 
-        possible_names = [
-            Landmark("Starbucks", "this is a starbucks"),
-            Landmark("Post office", "this is where u get ur mail"),
-            Landmark("walmart", "here at walmart we got the best prices"),
-            Landmark("Park", "this is a dog park"),
-            Landmark("Police Station", "this is a police station")
+        sidewalk = RoomType("sidewalk", "a brand new sidewalk")
+        deadend = RoomType("Dead End", "another dead end, you can only go back the same way you came")
+        possible_places = [
+            RoomType("Starbucks", "this is a starbucks"),
+            RoomType("Post office", "this is where u get ur mail"),
+            RoomType("walmart", "here at walmart we got the best prices"),
+            RoomType("Park", "this is a dog park"),
+            RoomType("Police Station", "this is a police station")
         ]
 
         rooms = Room.objects.all()
         for room in rooms:
-            landmark = random.choice(possible_names)
-            room.title = landmark.title
-            room.description = landmark.description
+            entrances = 0
+            if room.n_to:
+                entrances += 1
+            if room.e_to:
+                entrances += 1
+            if room.s_to:
+                entrances += 1
+            if room.w_to:
+                entrances += 1
+            if entrances >= 3:
+                place = random.choice(possible_places)
+            elif entrances == 2:
+                place = sidewalk
+            else:
+                place = deadend
+            room.title = place.title
+            room.description = place.description
             room.save()
+
 
 
 
@@ -180,6 +197,10 @@ height = 20
 w.generate_rooms(width, height, num_rooms)
 w.generate_room_data()
 w.print_rooms()
+
+rooms = Room.objects.all()
+for room in rooms:
+    print(room.id, room.title, room.description)
 
 print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
 
