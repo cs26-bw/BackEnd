@@ -11,6 +11,7 @@ class World:
 
     def generate_rooms(self, size_x, size_y, num_rooms):
         Room.objects.all().delete()
+        reverse_dirs = {"n": "s", "s": "n", "e": "w", "w": "e"}
         '''
         Fill up the grid, bottom to top, in a zig-zag pattern
         '''
@@ -60,19 +61,24 @@ class World:
             existing = self.grid[y][x]
             if not existing:
                 room = Room(title="A Generic Room", description="This is a generic room.", x = x, y = y)
+                room.save()
                 # Note that in Django, you'll need to save the room after you create i
                 # Save the room in the World grid
                 self.grid[y][x] = room
                 if not self.starting_room:
                     self.starting_room = room
                 room_count += 1
-                room.save()
             else:
                 room = existing
 
             # Connect the new room to the previous room
             if previous_room is not None:
+                if room_direction not in reverse_dirs:
+                    print("Invalid direction")
+                    continue
+                reverse_dir = reverse_dirs[room_direction]
                 previous_room.connectRooms(room, room_direction)
+                room.connectRooms(previous_room, reverse_dir)
 
             # Update iteration variables
             previous_room = room
@@ -111,7 +117,7 @@ class World:
             # PRINT NORTH CONNECTION ROW
             str += "#"
             for room in row:
-                if room is not None and room.n_to is not None:
+                if room is not None and room.n_to:
                     str += "  |  "
                 else:
                     str += "     "
@@ -119,7 +125,7 @@ class World:
             # PRINT ROOM ROW
             str += "#"
             for room in row:
-                if room is not None and room.w_to is not None:
+                if room is not None and room.w_to:
                     str += "-"
                 else:
                     str += " "
@@ -127,7 +133,7 @@ class World:
                     str += f"{room.id}".zfill(3)
                 else:
                     str += "   "
-                if room is not None and room.e_to is not None:
+                if room is not None and room.e_to:
                     str += "-"
                 else:
                     str += " "
@@ -135,7 +141,7 @@ class World:
             # PRINT SOUTH CONNECTION ROW
             str += "#"
             for room in row:
-                if room is not None and room.s_to is not None:
+                if room is not None and room.s_to:
                     str += "  |  "
                 else:
                     str += "     "
@@ -149,8 +155,8 @@ class World:
 
 
 w = World()
-num_rooms = 100
-width = 15
+num_rooms = 30
+width = 10
 height = 10
 w.generate_rooms(width, height, num_rooms)
 w.print_rooms()

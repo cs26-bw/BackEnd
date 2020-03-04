@@ -22,15 +22,8 @@ class Room(models.Model):
         except Room.DoesNotExist:
             print("That room does not exist")
         else:
-            reverse_dirs = {"n": "s", "s": "n", "e": "w", "w": "e"}
-            reverse_dir = reverse_dirs[direction]
-            if not reverse_dir:
-                print("invalid direction")
-                return
-            setattr(self, f"{direction}_to", destinationRoom.id)
-            setattr(destinationRoom, f"{reverse_dir}_to", self.id)
+            setattr(self, f"{direction}_to", destinationRoomID)
             self.save()
-            destinationRoom.save()
     def playerNames(self, currentPlayerID):
         return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
