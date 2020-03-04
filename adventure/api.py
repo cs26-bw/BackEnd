@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from decouple import config
 from django.contrib.auth.models import User
+from django.http import HttpResponseNotFound
 from .models import *
 from rest_framework.decorators import api_view
 import json
@@ -15,6 +16,8 @@ import json
 @api_view(["GET"])
 def initialize(request):
     user = request.user
+    if not user.is_authenticated:
+        return HttpResponseNotFound()
     player = user.player
     player_id = player.id
     uuid = player.uuid
@@ -26,6 +29,8 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    if not request.user.is_authenticated:
+        return HttpResponseNotFound()
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -59,9 +64,40 @@ def move(request):
         players = room.playerNames(player_id)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
+#@csrf_exempt
+@api_view(["GET"])
+def rooms(request):
+    if not request.user.is_authenticated:
+        return HttpResponseNotFound()
+    rooms = Room.objects.all()
+    response = []
+    cache = [None for x in range(0, len(rooms))]
+    def get_room_info(id_in):
+        result = {}
+        if id_in == 0:
+            return result
+        found = cache[id_in - 1]
+        if not found:
+            found = Room.objects.get(id=id_in)
+            cache[id_in - 1] = found
+        result = {'id': found.id, 'title': found.title, 'description': found.description, 'x': found.x, 'y': found.y}
+        return result
+    for room in rooms:
+        response.append({'id': room.id, 
+                    'title': room.title,
+                    'description': room.description,
+                    'north': get_room_info(room.n_to),
+                    'south': get_room_info(room.s_to),
+                    'west': get_room_info(room.w_to),
+                    'east': get_room_info(room.e_to),
+                    'x': room.x,
+                    'y': room.y})
+    return JsonResponse(response, safe=False)
 
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
+    if not request.user.is_authenticated:
+        return HttpResponseNotFound()
     # IMPLEMENT
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
