@@ -101,14 +101,19 @@ class World:
 
     def generate_room_data(self):
 
-        sidewalk = RoomType("sidewalk", "a brand new sidewalk")
-        deadend = RoomType("Dead End", "another dead end, you can only go back the same way you came")
+        sidewalk = RoomType("Sidewalk", "This looks like a brand new sidewalk.")
+        deadend = RoomType("Dead End", "Another dead end, you can only go back the same way you came.")
         possible_places = [
-            RoomType("Starbucks", "this is a starbucks"),
-            RoomType("Post office", "this is where u get ur mail"),
-            RoomType("walmart", "here at walmart we got the best prices"),
-            RoomType("Park", "this is a dog park"),
-            RoomType("Police Station", "this is a police station")
+            RoomType("Starbucks", "This is a Starbucks, a place for your morning coffee."),
+            RoomType("Post Office", "This is the post office. This is where you get your mail."),
+            RoomType("Walmart", "You are outside Walmart."),
+            RoomType("Park", "This is a dog park."),
+            RoomType("Police Station", "This is a police station."),
+            RoomType("Office Building", "This is the office building for new tech companies."),
+            RoomType("Gas Station", "This is where you fuel your car."),
+            RoomType("Hardware Store", "You can see a lot of home repair goods inside."),
+            RoomType("Bar", "You can hear the sound of live music in this bar tonight."),
+            RoomType("Hospital", "The Emergency Room is open.")
         ]
 
         rooms = Room.objects.all()
@@ -197,10 +202,10 @@ height = 20
 w.generate_rooms(width, height, num_rooms)
 w.generate_room_data()
 w.print_rooms()
-
-rooms = Room.objects.all()
-for room in rooms:
-    print(room.id, room.title, room.description)
+#
+# rooms = Room.objects.all()
+# for room in rooms:
+#     print(room.id, room.title, room.description)
 
 print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
 
