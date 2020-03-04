@@ -57,8 +57,8 @@ class World:
             self.grid[i] = [None] * size_x
 
         # Start from lower-left corner (0,0)
-        x = random.randint(0, size_x - 2) # (this will become 0 on the first step)
-        y = random.randint(0, size_y - 1)
+        x = size_x//2 # (this will become 0 on the first step)
+        y = size_y//2
         room_count = 0
 
 
@@ -180,9 +180,9 @@ class World:
 
 
 w = World()
-num_rooms = 100
-width = 15
-height = 10
+num_rooms = 500
+width = 40
+height = 40
 w.generate_rooms(width, height, num_rooms)
 w.print_rooms()
 
