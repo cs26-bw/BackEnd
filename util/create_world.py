@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 import random
+from util.main_classes import RoomType
 
 class World:
     def __init__(self):
@@ -98,6 +99,46 @@ class World:
             direction = random.choice(directions)  # 1: east, -1: west
 
 
+    def generate_room_data(self):
+
+        sidewalk = RoomType("Sidewalk", "This looks like a brand new sidewalk.")
+        deadend = RoomType("Dead End", "Another dead end, you can only go back the same way you came.")
+        possible_places = [
+            RoomType("Starbucks", "This is a Starbucks, a place for your morning coffee."),
+            RoomType("Post Office", "This is the post office. This is where you get your mail."),
+            RoomType("Walmart", "You are outside Walmart."),
+            RoomType("Park", "This is a dog park."),
+            RoomType("Police Station", "This is a police station."),
+            RoomType("Office Building", "This is the office building for new tech companies."),
+            RoomType("Gas Station", "This is where you fuel your car."),
+            RoomType("Hardware Store", "You can see a lot of home repair goods inside."),
+            RoomType("Bar", "You can hear the sound of live music in this bar tonight."),
+            RoomType("Hospital", "The Emergency Room is open.")
+        ]
+
+        rooms = Room.objects.all()
+        for room in rooms:
+            entrances = 0
+            if room.n_to:
+                entrances += 1
+            if room.e_to:
+                entrances += 1
+            if room.s_to:
+                entrances += 1
+            if room.w_to:
+                entrances += 1
+            if entrances >= 3:
+                place = random.choice(possible_places)
+            elif entrances == 2:
+                place = sidewalk
+            else:
+                place = deadend
+            room.title = place.title
+            room.description = place.description
+            room.save()
+
+
+
 
     def print_rooms(self):
         '''
@@ -159,7 +200,12 @@ num_rooms = 100
 width = 20
 height = 20
 w.generate_rooms(width, height, num_rooms)
+w.generate_room_data()
 w.print_rooms()
+#
+# rooms = Room.objects.all()
+# for room in rooms:
+#     print(room.id, room.title, room.description)
 
 print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
 
