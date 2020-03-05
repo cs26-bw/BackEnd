@@ -153,10 +153,16 @@ class WorldGenerator:
             else:
                 if chance < 0.75:
                     title.append((random.choice(adjectives)).title())
-                name = random.choice(names)
-                if chance > 0.85:
-                    name += "'s"
-                title.append(name)
+                chance_2 = random.random()
+                if chance_2 < 0.5:
+                    name = random.choice(names)
+                    if chance > 0.85:
+                        name += "'s"
+                    title.append(name)
+                else:
+                    noun = random.choice(nouns)
+                    title.append(noun.title())
+
         title.append(string.capwords(room.name))
         return " ".join(title)
 
