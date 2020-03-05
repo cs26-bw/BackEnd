@@ -121,7 +121,7 @@ class WorldGenerator:
             room.save()
 
     def generate_room_text(self, rooms):
-        building_types = {"restaurant", "school", "store", "residence", "business", "medical", "entertainment", "manufacturing", "empty", "transport", "other"}
+        building_types = {"restaurant": "That restaurant always seems busy.", "school": "It seems that there's a lot of students in there.", "store": "They sell a large variety of goods.", "residence": "It's a huge building.", "business": "A lot of people work here.", "medical": "This is a new hospital.", "entertainment": "The price of admission is listed on the front.", "manufacturing": "You can't go inside due to safety regulations.", "empty": "A lot of empty space is available.", "transport": "People are patiently waiting around.", "other": "This was newly built.", "outdoors": "This park is pretty popular."}
         path_types = {"pristine", "regular", "old", "crumbling"}
         adjectives = self.get_file_contents('./util/seed/adjectives.txt')
         adverbs = self.get_file_contents('./util/seed/adverbs.txt')
@@ -177,7 +177,7 @@ class WorldGenerator:
                 desc.append("You can't help but notice all of the cracks and holes.")
         elif room_type == "building":
             desc.append(f"You find yourself next to {self.get_noun_with_prep(room.name)}.")
-            # desc.append(building_types[building_type])
+            desc.append(building_types[building_type])
 
         desc.append("\n\n")
         entrances = [None, None, None, None]
