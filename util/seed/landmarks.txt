@@ -1,0 +1,12 @@
+pond;
+statue;
+fountain;
+lamp post;
+lake;
+art piece;
+bench;
+stone bench;
+billboard;
+pile of trash;
+hilltop;
+highway overpass;
