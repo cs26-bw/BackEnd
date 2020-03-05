@@ -14,7 +14,9 @@ class Room(models.Model):
     w_to = models.IntegerField(default=0)
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
-
+    room_type = models.CharField(max_length=50, default="generic")
+    name = models.CharField(max_length=50, default="generic room")
+    building_type = models.CharField(max_length=50, default="generic")
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:

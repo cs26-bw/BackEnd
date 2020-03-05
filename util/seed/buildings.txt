@@ -1,0 +1,47 @@
+post office;business
+department store;store
+convenience store;store
+apartment building;residence
+private garage;empty
+residential house;residence
+elementary school;school
+middle school;school
+high school;school
+community college;school
+psychiatric hospital;medical
+children's hospital;medical
+general hospital;medical
+nursing home;residence
+cultural center;other
+church;other
+prison;other
+movie theater;entertainment
+drama theatre;entertainment
+drive-in theater;entertainment
+clubhouse;other
+town hall;other
+auditorium;entertainment
+exhibition hall;entertainment
+museum;entertainment
+gym;other
+bus stop;transport
+taxi stand;transport
+railway station;transport
+airport;transport
+office building;business
+bank;business
+courthouse;other
+factory;manufacturing
+mill;manufacturing
+assembly plant;manufacturing
+power plant;manufacturing
+laboratory;medical
+warehouse;empty
+storage unit;empty
+public garage;empty
+police station;other
+gas station;store
+hardware store;store
+dog park;outdoors
+skate park;outdoors
+park;outdoors
