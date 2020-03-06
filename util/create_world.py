@@ -275,9 +275,9 @@ class WorldGenerator:
 
 
 w = WorldGenerator()
-num_rooms = 100
-width = 20
-height = 20
+num_rooms = 500
+width = 50
+height = 50
 w.generate_rooms(width, height, num_rooms)
 w.print_rooms()
 
